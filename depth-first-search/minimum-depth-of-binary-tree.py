@@ -10,17 +10,15 @@ class Solution:
         if root is None:
             return 0
 
-        # base case: no children
-        if root.left is None and root.right is None:
-            return 1
-        
-        # set up heights of both subtrees
-        left, right = 99999, 99999
-        if root.left:
-            left = self.minDepth(root.left)
-        if root.right:
-            right = self.minDepth(root.right)
+        def dfs(node, depth, answer) -> int:
 
-        return min(left, right) + 1
+            if not node: return answer
+            if not node.left and not node.right: return min(answer, depth)
+
+            left = dfs(node.left, depth + 1, answer)
+            right = dfs(node.right, depth + 1, answer)
+            return min(left, right)
+
+        return dfs(root, 1, float('inf'))
 
 
